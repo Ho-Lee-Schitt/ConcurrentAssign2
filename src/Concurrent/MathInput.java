@@ -1,11 +1,8 @@
-package Iterative;
+package Concurrent;
 
 /**
  * Created by cgf13hun on 27/03/2017.
  */
-import java.net.*;
-import java.io.*;
-import java.util.StringTokenizer;
 
 public class MathInput {
 
