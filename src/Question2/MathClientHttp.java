@@ -16,24 +16,33 @@ public class MathClientHttp
 {
     private static final String BASE_URI = "http://localhost:8080/calc";
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
+
+    public static void main(String[] args) {
 
         Scanner userInput = new Scanner(System.in);
         String numberString;
         do {
             System.out.print("Please enter your equation in the format <+|-|*|/>:5.5:1.2 e.g. +:3.2:4.5\n");
             numberString = userInput.nextLine();
-            if (!numberString.matches("^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$"))
+            if (!numberString.matches(REGEX_EXPRESSION))
             {
                 System.out.print("The equation entered was invalid.\n");
             }
-        } while (!numberString.matches("^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$"));
+        } while (!numberString.matches(REGEX_EXPRESSION));
+
         //int number = Integer.parseInt(numberString);
         //String answer = mi.processInput(numberString);
 
         String operators[] = numberString.split(":");
 
-        operators[0] = URLEncoder.encode(operators[0], "UTF-8");
+        try
+        {
+            operators[0] = URLEncoder.encode(operators[0], "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
 
         String queryExpression = "operator=" + operators[0] + "&" + "num1=" + operators[1] + "&" + "num2=" + operators[2];
 

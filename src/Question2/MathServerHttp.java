@@ -22,8 +22,8 @@ public class MathServerHttp
 
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
-            LOG.info("HTTP: Server started");
-            server.createContext("/calc", new PrimeContextHandler());
+            LOG.info("HTTP: Server started.");
+            server.createContext("/calc", new MathContextHandler());
             server.setExecutor(null); // creates a default executor
             server.start();
         } catch (IOException ex) {

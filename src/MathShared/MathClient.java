@@ -1,4 +1,4 @@
-package Concurrent;
+package MathShared;
 
 /**
  * Created by cgf13hun on 27/03/2017.
@@ -7,10 +7,9 @@ package Concurrent;
 import java.io.*;
 import java.net.Socket;
 
-//KnockKnockClient class
-
-public class ConcurrentMathClient
+public class MathClient
 {
+    public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
 
     public static void main(String[] args) {
         // create Socket for communication
@@ -21,23 +20,30 @@ public class ConcurrentMathClient
                         kkSocket.getOutputStream()));
                 BufferedReader is = new BufferedReader(new InputStreamReader(
                         kkSocket.getInputStream()));
-                String fromServer;
-                String input;
+                String fromServer, input;
                 try {
                     while ((fromServer = is.readLine()) != null) {
                         System.out.println("Server: " + fromServer);
-                        if (fromServer.equals("Bye.") || isDouble(fromServer)) {
+                        if (fromServer.equals("Bye.")) {
                             break;
                         }
+
                         // sets up a stream for user input
                         BufferedReader userInput = new BufferedReader(
                                 new InputStreamReader(System.in));
                         input = userInput.readLine();
 
                         // Validate input
-
-                        System.out.println("Client: " + input);
-                        os.println(input); // sending message to the server
+                        String result;
+                        if (!input.matches(REGEX_EXPRESSION) && !input.equals("Bye."))
+                        {
+                            result = "INVALID";
+                            System.out.println("Client: " + input);
+                            os.println(result); // sending message to the server
+                        } else {
+                            System.out.println("Client: " + input);
+                            os.println(input); // sending message to the server
+                        }
                         os.flush();
                     } // end while
                 } catch (IOException e) {
@@ -54,17 +60,5 @@ public class ConcurrentMathClient
         }
     } // end main
 
-    public static boolean isDouble(String s) {
-        try {
-            Double.parseDouble(s);
-        } catch(NumberFormatException e) {
-            return false;
-        } catch(NullPointerException e) {
-            return false;
-        }
-        // only got here if we didn't return false
-        return true;
-    }
-
-} // end ConcurrentMathClient
+} // end MathClient
 

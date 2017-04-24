@@ -19,6 +19,7 @@ public class ConcurrentServer
         try {
             // Open a server socket to listen on port 4444
             ServerSocket serverSocket = new ServerSocket(4444);
+            System.out.println("Concurrent: Server started");
             while (true)
             {
                 try
@@ -27,6 +28,7 @@ public class ConcurrentServer
                     Socket clientSocket = serverSocket.accept();
 
                     ServerThread clientThread = new ServerThread(clientSocket);
+                    System.out.println("Concurrent: Client Connected");
                     clientThread.start();
 
                 } catch (IOException e)

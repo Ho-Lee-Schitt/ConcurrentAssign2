@@ -14,10 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class PrimeContextHandler implements HttpHandler {
+import MathShared.MathCalc;
+import javafx.beans.binding.DoubleExpression;
+
+public class MathContextHandler implements HttpHandler {
 
     // static logger
-    public static final Logger LOG = Logger.getLogger(PrimeContextHandler.class.getName());
+    public static final Logger LOG = Logger.getLogger(MathContextHandler.class.getName());
+    public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
 
     @Override
     public void handle(HttpExchange request) throws IOException {
@@ -33,6 +37,7 @@ public class PrimeContextHandler implements HttpHandler {
                 request.sendResponseHeaders(400, 0); // 400 bad request
             } else {
                 request.sendResponseHeaders(200, 0); // 200 Ok
+                LOG.info(request.getRequestMethod() + " request returned response of " + response + ".");
             }
         } else {
             request.sendResponseHeaders(501, 0); //  501 - not implemented
@@ -40,14 +45,13 @@ public class PrimeContextHandler implements HttpHandler {
         // write response and close
         request.getResponseBody().write(response.getBytes());
         request.getResponseBody().close();
-
     }
 
     // handle a HTTP GET request
-    public static String handleGET(HttpExchange request) throws IOException, NumberFormatException {
+    private static String handleGET(HttpExchange request) throws IOException, NumberFormatException {
         Map<String, String> parms = getQueryParameters(request);
 
-        MathInput mi = new MathInput();
+        MathCalc mi = new MathCalc();
 
         String operator, num1, num2;
         //number = parms.getOrDefault("Number", "");
@@ -55,10 +59,16 @@ public class PrimeContextHandler implements HttpHandler {
         num1 = parms.getOrDefault("num1", "");
         num2 = parms.getOrDefault("num2", "");
 
+        // Validate input
+        String answer = operator + ":" + num1 + ":" + num2;
+        if (!answer.matches(REGEX_EXPRESSION) || !MathCalc.isDouble(num1) || !MathCalc.isDouble(num2))
+        {
+            return "";
+        }
+
         if (!operator.equals("") || num1.equals("") || num2.equals(""))
         {
-
-            String answer = mi.processInput(operator + ":" + num1 + ":" + num2);
+            answer = mi.processInput(operator + ":" + num1 + ":" + num2);
             return  answer;
         }
 
@@ -87,7 +97,7 @@ public class PrimeContextHandler implements HttpHandler {
         return result;
     } // end getQueryParameters
 
-    // utility method to check if a number is prime
+    /*// utility method to check if a number is prime
     private static boolean isPrimeNumber(int number) {
         if (number == 2 || number == 3) {
             return true;
@@ -102,6 +112,6 @@ public class PrimeContextHandler implements HttpHandler {
             }
         }
         return true;
-    } // end isPrimeNumber
+    } // end isPrimeNumber*/
 
-}// class PrimeContextHandler
+}// class MathContextHandler
