@@ -1,6 +1,8 @@
 package Iterative;
+
 import java.net.*;
 import java.io.*;
+import MathShared.MathCalc;
 
 /**
  * Created by cgf13hun on 27/03/2017.
@@ -13,6 +15,7 @@ public class MathsServer {
         try {
             // Open a server socket to listen on port 4444
             ServerSocket serverSocket = new ServerSocket(4444);
+            System.out.println("Iterative: Server started");
             try {
                 // Wait to accept a connecting client
                 Socket clientSocket = serverSocket.accept();
@@ -21,13 +24,18 @@ public class MathsServer {
                      PrintWriter os = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
                     // Set up the server state
                     System.out.println("Math server waiting for input");
-                    MathInput MI = new MathInput();
+                    MathCalc MC = new MathCalc();
                     String inputLine, outputLine;
-                    outputLine = "Please enter your equasion in the format +:3.2:4.5";
+                    outputLine = "Please enter your equation in the format +:3.2:4.5";
                     os.println(outputLine);
                     os.flush();
                     while ((inputLine = is.readLine()) != null) {
-                        outputLine = MI.processInput(inputLine);
+                        if (inputLine.equals("INVALID")) {
+                            outputLine = "Invalid input. Please enter your equation in the format +:3.2:4.5";
+                        } else
+                        {
+                            outputLine = MC.processInput(inputLine);
+                        }
                         os.println(outputLine);
                         os.flush();
                         if (outputLine.equals("Bye.")) {
@@ -36,9 +44,12 @@ public class MathsServer {
                         if (outputLine.equals("NULL")) {
                             throw new RuntimeException();
                         }
+
                     } // end while
+
                     clientSocket.close();
                     serverSocket.close();
+                    System.out.println("Iterative: Server started");
                 } catch (IOException e) {
                     System.out.println("Failed to create I/O streams " + e);
                     e.printStackTrace();
