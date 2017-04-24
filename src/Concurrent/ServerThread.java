@@ -1,49 +1,12 @@
 package Concurrent;
 
-import com.sun.security.ntlm.Server;
-
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
- * Created by cgf13hun on 27/03/2017.
+ * Created by Niall Hughes on 23/04/2017.
  */
-
-public class MathsServer {
-
-    public static void main(String[] args) {
-
-        try {
-            // Open a server socket to listen on port 4444
-            ServerSocket serverSocket = new ServerSocket(4444);
-            while (true)
-            {
-                try
-                {
-                    // Wait to accept a connecting client
-                    Socket clientSocket = serverSocket.accept();
-
-                    ServerThread clientThread = new ServerThread(clientSocket);
-                    clientThread.start();
-
-                } catch (IOException e)
-                {
-                    System.out.println("Accept failed on port: " + 4444 + ", " + e);
-                    System.exit(1);
-                }
-            }
-            //serverSocket.close();
-        } catch (IOException e) {
-            System.out.println("Could not listen on port: " + 4444 + ", " + e);
-            System.exit(1);
-        } // end catch
-    } // end main
-
-} // end KnockKnockServer
-
-class ServerThread extends Thread {
+public class ServerThread extends Thread {
     BufferedReader is;
     PrintWriter os;
     String inputLine;
