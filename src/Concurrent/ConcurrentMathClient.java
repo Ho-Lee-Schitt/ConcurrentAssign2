@@ -9,7 +9,8 @@ import java.net.Socket;
 
 //KnockKnockClient class
 
-public class MathClient {
+public class ConcurrentMathClient
+{
 
     public static void main(String[] args) {
         // create Socket for communication
@@ -25,7 +26,7 @@ public class MathClient {
                 try {
                     while ((fromServer = is.readLine()) != null) {
                         System.out.println("Server: " + fromServer);
-                        if (fromServer.equals("Bye.")) {
+                        if (fromServer.equals("Bye.") || isDouble(fromServer)) {
                             break;
                         }
                         // sets up a stream for user input
@@ -38,8 +39,6 @@ public class MathClient {
                         System.out.println("Client: " + input);
                         os.println(input); // sending message to the server
                         os.flush();
-                        System.out.println("Server: " + fromServer);
-                        break;
                     } // end while
                 } catch (IOException e) {
                     System.err.println("Unable to open I/O streams  " + e);
@@ -55,4 +54,17 @@ public class MathClient {
         }
     } // end main
 
-} // end KnockKnockClient
+    public static boolean isDouble(String s) {
+        try {
+            Double.parseDouble(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
+
+} // end ConcurrentMathClient
+
