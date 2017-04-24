@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class ConcurrentServer
 {
+    static boolean loop = true; // Used to keep the server alive
 
     public static void main(String[] args) {
 
@@ -20,7 +21,7 @@ public class ConcurrentServer
             // Open a server socket to listen on port 4444
             ServerSocket serverSocket = new ServerSocket(4444);
             System.out.println("Concurrent: Server started");
-            while (true)
+            while (loop)
             {
                 try
                 {

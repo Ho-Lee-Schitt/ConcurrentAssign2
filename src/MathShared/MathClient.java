@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class MathClient
 {
-    public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
+    public static final String REGEX_EXPRESSION = "^[-+\\/*]:-?[0-9]+(\\.[0-9]+)?:-?[0-9]+(\\.[0-9]+)?$";
 
     public static void main(String[] args) {
         // create Socket for communication

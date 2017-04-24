@@ -16,7 +16,7 @@ public class MathClientHttp
 {
     private static final String BASE_URI = "http://localhost:8080/calc";
 
-    public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
+    public static final String REGEX_EXPRESSION = "^[-+\\/*]:-?[0-9]+(\\.[0-9]+)?:-?[0-9]+(\\.[0-9]+)?$";
 
     public static void main(String[] args) {
 
