@@ -11,15 +11,6 @@ public class MathClient
 {
     public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
 
-    private static boolean useInput;
-    private static String input;
-    private static int loop = 1;
-
-    public MathClient(boolean useInputString, String inputVal){
-        this.input = inputVal;
-        this.useInput = useInputString;
-    }
-
     public static void main(String[] args) {
         // create Socket for communication
         try (Socket kkSocket = new Socket("localhost", 4444)) {
@@ -29,7 +20,7 @@ public class MathClient
                         kkSocket.getOutputStream()));
                 BufferedReader is = new BufferedReader(new InputStreamReader(
                         kkSocket.getInputStream()));
-                String fromServer;
+                String fromServer, input;
                 try {
                     while ((fromServer = is.readLine()) != null) {
                         System.out.println("Server: " + fromServer);
@@ -37,21 +28,10 @@ public class MathClient
                             break;
                         }
 
-                        if (!useInput)
-                        {
-                            // sets up a stream for user input
-                            BufferedReader userInput = new BufferedReader(
-                                    new InputStreamReader(System.in));
-                            input = userInput.readLine();
-                        }
-                        else
-                        {
-                            if (loop == 0)
-                            {
-                                input = "Bye.";
-                            }
-                            loop--;
-                        }
+                        // sets up a stream for user input
+                        BufferedReader userInput = new BufferedReader(
+                                new InputStreamReader(System.in));
+                        input = userInput.readLine();
 
                         // Validate input
                         String result;

@@ -49,7 +49,7 @@ public class MathsServer {
 
                     clientSocket.close();
                     serverSocket.close();
-                    System.out.println("Iterative: Server started");
+                    System.out.println("Iterative: Server Stopped");
                 } catch (IOException e) {
                     System.out.println("Failed to create I/O streams " + e);
                     e.printStackTrace();
