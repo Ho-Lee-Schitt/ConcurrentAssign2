@@ -1,15 +1,15 @@
-package Iterative;
+package MathShared;
 
 /**
  * Created by cgf13hun on 27/03/2017.
  */
 
 import java.io.*;
-import java.net.*;
+import java.net.Socket;
 
-//KnockKnockClient class
-
-public class MathClient {
+public class MathClient
+{
+    public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
 
     public static void main(String[] args) {
         // create Socket for communication
@@ -20,23 +20,30 @@ public class MathClient {
                         kkSocket.getOutputStream()));
                 BufferedReader is = new BufferedReader(new InputStreamReader(
                         kkSocket.getInputStream()));
-                String fromServer;
-                String input;
+                String fromServer, input;
                 try {
                     while ((fromServer = is.readLine()) != null) {
                         System.out.println("Server: " + fromServer);
                         if (fromServer.equals("Bye.")) {
                             break;
                         }
+
                         // sets up a stream for user input
                         BufferedReader userInput = new BufferedReader(
                                 new InputStreamReader(System.in));
                         input = userInput.readLine();
 
                         // Validate input
-
-                        System.out.println("Client: " + input);
-                        os.println(input); // sending message to the server
+                        String result;
+                        if (!input.matches(REGEX_EXPRESSION) && !input.equals("Bye."))
+                        {
+                            result = "INVALID";
+                            System.out.println("Client: " + input);
+                            os.println(result); // sending message to the server
+                        } else {
+                            System.out.println("Client: " + input);
+                            os.println(input); // sending message to the server
+                        }
                         os.flush();
                     } // end while
                 } catch (IOException e) {
@@ -53,4 +60,5 @@ public class MathClient {
         }
     } // end main
 
-} // end KnockKnockClient
+} // end MathClient
+

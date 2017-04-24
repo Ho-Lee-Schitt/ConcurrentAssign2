@@ -1,4 +1,4 @@
-package Iterative;
+package MathShared;
 
 /**
  * Created by cgf13hun on 27/03/2017.
