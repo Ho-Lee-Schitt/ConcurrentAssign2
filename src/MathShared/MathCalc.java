@@ -30,12 +30,17 @@ public class MathCalc implements MathService
 
         String[] test = input.split(":");
 
+
         switch (test[0]) {
             case "+":
                 return Double.toString(add(Double.parseDouble(test[1]), Double.parseDouble(test[2])));
             case "-":
                 return Double.toString(sub(Double.parseDouble(test[1]), Double.parseDouble(test[2])));
             case "/":
+                if (test[2].equals("0"))
+                {
+                    return "ZERO ERROR";
+                }
                 return Double.toString(div(Double.parseDouble(test[1]), Double.parseDouble(test[2])));
             case "*":
                 return Double.toString(mul(Double.parseDouble(test[1]), Double.parseDouble(test[2])));

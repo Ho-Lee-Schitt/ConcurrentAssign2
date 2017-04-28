@@ -21,7 +21,7 @@ public class MathContextHandler implements HttpHandler {
 
     // static logger
     public static final Logger LOG = Logger.getLogger(MathContextHandler.class.getName());
-    public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
+    public static final String REGEX_EXPRESSION = "^[-+\\/*]:-?[0-9]+(\\.[0-9]+)?:-?[0-9]+(\\.[0-9]+)?$";
 
     @Override
     public void handle(HttpExchange request) throws IOException {

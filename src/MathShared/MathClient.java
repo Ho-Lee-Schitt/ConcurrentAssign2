@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class MathClient
 {
-    public static final String REGEX_EXPRESSION = "^[-+\\/*]:[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$";
+    public static final String REGEX_EXPRESSION = "^[-+\\/*]:-?[0-9]+(\\.[0-9]+)?:-?[0-9]+(\\.[0-9]+)?$";
 
     public static void main(String[] args) {
         // create Socket for communication
@@ -26,6 +26,8 @@ public class MathClient
                         System.out.println("Server: " + fromServer);
                         if (fromServer.equals("Bye.")) {
                             break;
+                        } else if (fromServer.equals("ZERO ERROR")) {
+                            System.out.println("Cannot divide by zero. Please re-enter your equation.");
                         }
 
                         // sets up a stream for user input
